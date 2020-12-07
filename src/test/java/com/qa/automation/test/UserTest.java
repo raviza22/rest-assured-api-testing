@@ -1,10 +1,8 @@
 package com.qa.automation.test;
 
+import com.qa.automation.service.User;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
@@ -38,10 +36,18 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    public void verifySingleUserNotFound() {
+        given().
+                pathParam("userId", 23).
+                when().
+                get(USERS_ENDPOINT + "/{userId}").
+                then().
+                statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
     public void verifyNewUserIsCreated() {
-        Map<String, String> user = new HashMap<>();
-        user.put("name", "john");
-        user.put("job", "engineer");
+        User user = new User("john", "engineer");
 
         given().
                 body(user).
