@@ -29,11 +29,10 @@ public class RegisterTest extends BaseTest {
 
     @Test
     public void verifyUnsuccessfulUserRegistration() {
-        User user = new User();
-        user.setEmail("test@gmail.com");
-
         given().
-                body(user).
+                body("{\n" +
+                        "    \"email\": \"eve.holt@reqres.in\"\n" +
+                        "}").
                 when().
                 post(REGISTER_ENDPOINT).
                 then().
